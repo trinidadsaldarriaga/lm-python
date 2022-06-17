@@ -5,22 +5,33 @@ import matplotlib as plt
 
 Fs = 500
 Ts = 1/Fs
-p = pd.read_csv("./presion_tp1.csv")
+S1 = pd.read_csv("./presion_tp1.csv")
 
-L = len(p)
-print(p.values.reshape([1,L]).tolist())
+L = len(S1)
+print(S1.values.reshape([1,L]).tolist())
 print ("L:{0}".format(L))
 k = np.arange(0,L)
 t = k * Ts
 
-pf = abs(np.fft.fft((p.values.reshape([1,L]).tolist())))
+pf = abs(np.fft.fft((S1.values.reshape([1,L]).tolist())))
 
 rf = Fs/(L-1)
 f = k*rf
 
+Vmax_sensor = 1
+Vmin_sensor = -1
+
+Vmax_adc = 3.3
+Vmin_adc = 0
+
+G= (Vmax_adc - Vmin_adc) / (Vmax_sensor - Vmin_sensor)
+offset = (Vmax_adc - Vmin_adc) / 2
+
+S2 = S1 * G + offset
+
 #imprimo
 plt.subplot(2,1,1)
-plt.plot(t,p)
+plt.plot(t,S1)
 plt.grid()
 plt.xlabel("t[s]")
 
