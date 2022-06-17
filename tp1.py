@@ -28,6 +28,25 @@ G= (Vmax_adc - Vmin_adc) / (Vmax_sensor - Vmin_sensor)
 offset = (Vmax_adc - Vmin_adc) / 2
 
 S2 = S1 * G + offset
+S2_min = Vmin_adc
+S2_max = Vmax_adc
+
+#D1 (8bits)
+
+#def cuantificar (x,n)
+
+N1 = 8
+D1_min = 0
+D1_max = 2**N1 - 1
+D1 = round(S2* (D1_max / S2_max))
+
+#D1 = cuantificar (S2,N1)
+
+#S2 --> D1
+
+#D2 (12bits)
+
+#D3 (24bits)
 
 #imprimo
 plt.subplot(2,1,1)
@@ -36,9 +55,9 @@ plt.grid()
 plt.xlabel("t[s]")
 
 plt.subplot(2,1,2)
-plt.plot(pf)
+plt.plot(t,S2)
 plt.grid()
-plt.xlabel("f")
+plt.xlabel("t[s]")
 
 plt.show()
 
